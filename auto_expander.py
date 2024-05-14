@@ -20,6 +20,12 @@ include_guard = re.compile('#.*ATCODER_[A-Z_]*_HPP')
 lib_path = Path("D:\\MSYS2\\mingw64\\include\\c++\\13.2.0\\x86_64-w64-mingw32")
 
 defined = set()
+basicConfig(
+        format="%(asctime)s [%(levelname)s] %(message)s",
+        datefmt="%H:%M:%S",
+        level=getenv('LOG_LEVEL', 'INFO'),
+    )
+
 
 def dfs(f: str) -> List[str]:
     global defined
@@ -44,14 +50,10 @@ def dfs(f: str) -> List[str]:
     return result
 
 def expander_operation():
-    basicConfig(
-        format="%(asctime)s [%(levelname)s] %(message)s",
-        datefmt="%H:%M:%S",
-        level=getenv('LOG_LEVEL', 'INFO'),
-    )
+    
     lib_path = Path("D:\\MSYS2\\mingw64\\include\\c++\\13.2.0\\x86_64-w64-mingw32")
 
-    s = pyperclip.paste()
+    s = current_clipboard
     result = []
     for line in s.splitlines():
         m = atcoder_include.match(line)
@@ -68,10 +70,16 @@ if __name__ == "__main__":
 
     while True:
         logger.info('running')
+
         current_clipboard = pyperclip.paste()
-        if current_clipboard != previous_clipboard:
+        ok = False
+        for line in current_clipboard.splitlines():
+            m = atcoder_include.match(line)
+            if m:
+                ok = True
+                break
+        if ok:
+            logger.info('expanding')
             defined = set()
-            # 如果剪贴板内容发生变化，执行处理操作
             expander_operation()
-            previous_clipboard = current_clipboard
-        time.sleep(1)
+        time.sleep(0.5)
