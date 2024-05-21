@@ -50,9 +50,6 @@ def dfs(f: str) -> List[str]:
     return result
 
 def expander_operation():
-    
-    lib_path = Path("D:\\MSYS2\\mingw64\\include\\c++\\13.2.0\\x86_64-w64-mingw32")
-
     s = current_clipboard
     result = []
     for line in s.splitlines():
@@ -82,4 +79,4 @@ if __name__ == "__main__":
             logger.info('expanding')
             defined = set()
             expander_operation()
-        time.sleep(0.5)
+        time.sleep(0.2)
